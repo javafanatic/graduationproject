@@ -1,0 +1,383 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link  type="text/css" rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.css">
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .ulpager{
+            text-align:center;
+        }
+    </style>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<script  th:inline="javascript">
+        var typelist=[[${typelist}]];
+        var maxsize=typelist.length-1;
+        var curpage=0;
+        var maxpage=maxsize/8-1;
+        console.log(typelist.length);
+            $(document).ready(function() {
+                for(var i=1;i<=8;i++){
+                    var lis= $("#mvdiv"+i).children("ul").children("li");
+                    lis[0].innerHTML="<a href='/moviedetail?mid="+typelist[i].mid+"'>"+"<img alt='140x140'  height='240px' width='170px' class='img-rounded'  src='"+typelist[i].spic+"'>";
+                    lis[1].innerHTML="<a href='/moviedetail?mid="+typelist[i].mid+"'>"+ "<span>"+typelist[i].name+"</span></a>";
+                    lis[2].innerHTML="导演："+typelist[i].directors;
+                    lis[3].innerHTML="演员："+typelist[i].actors;
+                    lis[4].innerHTML="制片国家/地区： "+typelist[i].country;
+                    lis[5].innerHTML="语言："+typelist[i].language;
+                    lis[6].innerHTML="编剧："+typelist[i].writers;
+                    lis[7].innerHTML="上映时间: "+typelist[i].year;
+                }
+                $("#pre").click(function () {
+                    if (curpage <= 0) {
+                        alert("已经是第一页了");
+                    }
+                    else {
+
+                        curpage--;
+                        for(var i=1;i<=8;i++) {
+
+                            var lis = $("#mvdiv" + i).children("ul").children("li");
+                            lis[0].innerHTML = "<a href='/moviedetail?mid=" + typelist[curpage * 8 + i].mid + "'>" + "<img alt='140x140'  height='240px' width='170px' class='img-rounded'  src='" + typelist[curpage * 8 + i].spic + "'>";
+                            lis[1].innerHTML = "<a href='/moviedetail?mid=" + typelist[curpage * 8 + i].mid + "'>" + "<span>" + typelist[curpage * 8 + i].name + "</span></a>";
+                            lis[2].innerHTML = "导演：" + typelist[curpage * 8 + i].directors;
+                            lis[3].innerHTML = "演员：" + typelist[curpage * 8 + i].actors;
+                            lis[4].innerHTML = "制片国家/地区： " + typelist[curpage * 8 + i].country;
+                            lis[5].innerHTML = "语言：" + typelist[curpage * 8 + i].language;
+                            lis[6].innerHTML = "编剧：" + typelist[curpage * 8 + i].writers;
+                            lis[7].innerHTML = "上映时间" + typelist[curpage * 8 + i].year;
+                        }
+                    }
+                });
+                $("#next").click(function () {
+                    if (curpage >= maxpage){
+                        alert("已经是最后一页了");
+                    }
+                    else {
+                        curpage++;
+                        for(var i=1;i<=8;i++) {
+                            var lis = $("#mvdiv" + i).children("ul").children("li");
+                            lis[0].innerHTML = "<a href='/moviedetail?mid=" + typelist[curpage * 8 + i].mid + "'>" + "<img alt='140x140'  height='240px' width='170px' class='img-rounded'  src='" + typelist[curpage * 8 + i].spic + "'>";
+                            lis[1].innerHTML = "<a href='/moviedetail?mid=" + typelist[curpage * 8 + i].mid + "'>" + "<span>" + typelist[curpage * 8 + i].name + "</span></a>";
+                            lis[2].innerHTML = "导演：" + typelist[curpage * 8 + i].directors;
+                            lis[3].innerHTML = "演员：" + typelist[curpage * 8 + i].actors;
+                            lis[4].innerHTML = "制片国家/地区： " + typelist[curpage * 8 + i].country;
+                            lis[5].innerHTML = "语言：" + typelist[curpage * 8 + i].language;
+                            lis[6].innerHTML = "编剧：" + typelist[curpage * 8 + i].writers;
+                            lis[7].innerHTML = "上映时间" + typelist[curpage * 8 + i].year;
+                        }
+                    }
+                });
+            });
+
+
+
+
+
+    /* $(document).ready(function(){
+         $("#next").click(function(){
+             if(curpage>=maxsize){
+                 alert("已经是最后一页了");
+             }
+             else{
+                 curpage++;
+                 for(var i=1;i<=10;i++){
+                     console.log(clist[curpage*10+i].uid);
+                     $("#uid"+i).html(clist[curpage*10+i].uid);
+                     $("#score"+i).html(clist[curpage*10+i].score);
+                     $("#comment"+i).html(clist[curpage*10+i].comContents);
+                 }
+             }
+         });
+     });*/
+</script>
+​<div class="container" >
+<ul class="nav nav-pills searchtype">
+    <li  id="fanzui"><a href="/typesearch?type=犯罪">犯罪</a></li>
+    <li id="juqing"><a href="/typesearch?type=剧情">剧情</a></li>
+    <li  id="aiqing"><a href="/typesearch?type=爱情">爱情</a></li>
+    <li id="tongxing"><a href="/typesearch?type=同性">同性</a></li>
+    <li id="dongzuo"><a href="/typesearch?type=动作">动作</a></li>
+    <li id="xiju"><a href="/typesearch?type=喜剧">喜剧</a></li>
+    <li id="zainan"><a href="/typesearch?type=灾难">灾难</a></li>
+    <li id="qihuan"><a href="/typesearch?type=奇幻">奇幻</a></li>
+    <li id="donghua"><a href="/typesearch?type=动画">动画</a></li>
+    <li id="kehuan"><a href="/typesearch?type=科幻">科幻</a></li>
+    <li id="lishi"><a href="/typesearch?type=历史">历史</a></li>
+    <li id="zhanzheng"><a href="/typesearch?type=战争">战争</a></li>
+</ul>
+</div>
+​<div class="container" >
+    <div class="row clearfix">
+        <div class="col-md-3 column" id="mvdiv1">
+            <!--<a href="/moviedetail?mid=25983044"> <img alt="140x140"  height="240px" width="170px" class="img-rounded" src="https://images.weserv.nl/?url=img9.doubanio.com/view/photo/s_ratio_poster/public/p2391542403.jpg"></a>
+-->
+            <!--  <img class="layui-nav-img" th:src="${(user.avatarUrl != null && !#strings.isEmpty(user.avatarUrl)) ? '/asset/avatar/'+user.avatarUrl : '/asset/avatar/head_portrait2.png'}"/>
+              <span th:text="${user.name}"></span>-->
+            <ul class="list-unstyled" >
+                <li class="li1">
+                </li>
+                <li >
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-md-3 column" id="mvdiv2">
+
+            <!--  <img class="layui-nav-img" th:src="${(user.avatarUrl != null && !#strings.isEmpty(user.avatarUrl)) ? '/asset/avatar/'+user.avatarUrl : '/asset/avatar/head_portrait2.png'}"/>
+              <span th:text="${user.name}"></span>-->
+            <ul class="list-unstyled" >
+                <li class="li1">
+
+                </li>
+                <li >
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-3 column" id="mvdiv3">
+
+            <!--  <img class="layui-nav-img" th:src="${(user.avatarUrl != null && !#strings.isEmpty(user.avatarUrl)) ? '/asset/avatar/'+user.avatarUrl : '/asset/avatar/head_portrait2.png'}"/>
+              <span th:text="${user.name}"></span>-->
+            <ul class="list-unstyled" >
+                <li class="li1">
+
+                </li>
+                <li >
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-3 column" id="mvdiv4">
+
+            <!--  <img class="layui-nav-img" th:src="${(user.avatarUrl != null && !#strings.isEmpty(user.avatarUrl)) ? '/asset/avatar/'+user.avatarUrl : '/asset/avatar/head_portrait2.png'}"/>
+              <span th:text="${user.name}"></span>-->
+            <ul class="list-unstyled" >
+                <li class="li1">
+
+                </li>
+                <li >
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+    <br>
+    ​ <div class="row clearfix">
+    <div class="col-md-3 column" id="mvdiv5">
+
+        <!--  <img class="layui-nav-img" th:src="${(user.avatarUrl != null && !#strings.isEmpty(user.avatarUrl)) ? '/asset/avatar/'+user.avatarUrl : '/asset/avatar/head_portrait2.png'}"/>
+          <span th:text="${user.name}"></span>-->
+        <ul class="list-unstyled" >
+            <li class="li1">
+
+            </li>
+            <li >
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-3 column" id="mvdiv6">
+
+        <!--  <img class="layui-nav-img" th:src="${(user.avatarUrl != null && !#strings.isEmpty(user.avatarUrl)) ? '/asset/avatar/'+user.avatarUrl : '/asset/avatar/head_portrait2.png'}"/>
+          <span th:text="${user.name}"></span>-->
+        <ul class="list-unstyled" >
+            <li class="li1">
+
+            </li>
+            <li >
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-3 column" id="mvdiv7">
+
+        <!--  <img class="layui-nav-img" th:src="${(user.avatarUrl != null && !#strings.isEmpty(user.avatarUrl)) ? '/asset/avatar/'+user.avatarUrl : '/asset/avatar/head_portrait2.png'}"/>
+          <span th:text="${user.name}"></span>-->
+        <ul class="list-unstyled" >
+            <li class="li1">
+
+            </li>
+            <li >
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-3 column" id="mvdiv8">
+
+        <!--  <img class="layui-nav-img" th:src="${(user.avatarUrl != null && !#strings.isEmpty(user.avatarUrl)) ? '/asset/avatar/'+user.avatarUrl : '/asset/avatar/head_portrait2.png'}"/>
+          <span th:text="${user.name}"></span>-->
+        <ul class="list-unstyled" >
+            <li class="li1">
+
+            </li>
+            <li >
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+            <li>
+
+            </li>
+        </ul>
+    </div>
+    ​<div class="container" >
+
+        <ul class="pager ulpager" >
+            <li class="previous disabled"><button  class="btn btn-info" id="pre"/>&larr; 上一页</li>
+            <li class="next"><button  class="btn btn-success" id="next"/>下一页 &rarr;</li>
+        </ul>
+    </div>
+</div>
+</div><br>
+</div>
+</body>
+</html>

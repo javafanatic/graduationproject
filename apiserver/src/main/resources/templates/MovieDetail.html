@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap -->
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+ <!--   <link  type="text/css" rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.css">
+    <script src="/webjars/jquery/3.3.1/jquery.js"></script>
+    <script src="/webjars/bootstrap/4.0.0/js/bootstrap.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-->
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+       li{
+        margin-bottom:20px
+        }
+    </style>
+</head>
+<body>
+<script th:inline="javascript">
+    var clist=[[${commentlist}]];
+    console.log(clist[1].uid);
+    var csize=clist.length;
+    var maxsize=csize/10-1;
+    var curpage=1;
+    for(var i=1;i<=10;i++){
+        console.log(clist[i].uid);
+        $("#uid"+i).html(clist[i].uid);
+        $("#score"+i).html(clist[i].score);
+        $("#comment"+i).html(clist[i].comContents);
+    }
+    console.log(csize);
+</script>
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(function(){
+
+        $("#pre").click(function(){
+            if(curpage<=1){
+                alert("已经是第一页了");
+            }
+            else{
+                curpage--;
+                for(var i=1;i<=10;i++){
+                    console.log(clist[i].uid);
+                    $("#uid"+i).html(clist[curpage*10+i].uid);
+                    $("#score"+i).html(clist[curpage*10+i].score);
+                    $("#comment"+i).html(clist[curpage*10+i].comContents);
+                }
+            }
+        });
+    });
+    $(document).ready(function(){
+        $("#next").click(function(){
+            if(curpage>=maxsize){
+                alert("已经是最后一页了");
+            }
+            else{
+                curpage++;
+                for(var i=1;i<=10;i++){
+                    console.log(clist[curpage*10+i].uid);
+                    $("#uid"+i).html(clist[curpage*10+i].uid);
+                    $("#score"+i).html(clist[curpage*10+i].score);
+                    $("#comment"+i).html(clist[curpage*10+i].comContents);
+                }
+            }
+        });
+    });
+</script>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li class="active">
+                <a href="/typemovie">分类查找电影</a>
+            </li>
+            <li>
+                <a href="#">Link</a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#">Action</a>
+                    </li>
+                    <li>
+                        <a href="#">Another action</a>
+                    </li>
+                    <li>
+                        <a href="#">Something else here</a>
+                    </li>
+                    <li class="divider">
+                    </li>
+                    <li>
+                        <a href="#">Separated link</a>
+                    </li>
+                    <li class="divider">
+                    </li>
+                    <li>
+                        <a href="#">One more separated link</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" />
+            </div> <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right ">
+            <li>
+                <a href="#">Link</a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#">Action</a>
+                    </li>
+                    <li>
+                        <a href="#">Another action</a>
+                    </li>
+                    <li>
+                        <a href="#">Something else here</a>
+                    </li>
+                    <li class="divider">
+                    </li>
+                    <li>
+                        <a href="#">Separated link</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</nav>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+
+            <div class="row clearfix">
+                <div class="col-md-4 column">
+                    <img alt="140x140" th:src="${movie.spic}" />
+                </div>
+                <div class="col-md-8 column">
+                    <ul class="list-unstyled">
+                        <li>
+                            影名：<span th:text="${movie.name}"></span>
+                        </li>
+                        <li>
+                            导演：<span th:text="${movie.directors}"></span>
+                        </li>
+                        <li>
+                            演员：<span th:text="${movie.actors}"></span>
+                        </li>
+                        <li>
+                            制片国家/地区：<span th:text="${movie.country}"></span>
+                        </li>
+                        <li>
+                            语言：<span th:text="${movie.language}"></span>
+                        </li>
+                        <li>
+                            编剧：<span th:text="${movie.writers}"></span>
+                        </li>
+                        <li>
+                            上映时间：<span th:text="${movie.year}"></span>
+                        </li>
+                        <li>
+                            播放链接：<span th:text="${movie.video}"></span>
+                        </li>
+
+                        <li>
+                            简介：<span th:text="${movie.summary}"></span>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <form role="form" action="/submitrate">
+                        <div class="form-group">
+                            <label for="score">评分</label><input id="score" name="score" value="0" type="number" class="rating" min=1 max=5 step=1 data-size="sm"/>
+                            <textarea class="form-control" name="comment" rows="3"></textarea>
+                            <input type="hidden" name="mid" th:value="${movie.mid}">
+                            <input class="btn btn-default" type="submit" value="提交">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-8 column">
+
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid1"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score1" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+                    <p id="comment1">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid2"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score2" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+
+
+                    <p id="comment2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid3"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score3" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+
+
+                    <p id="comment3">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid4"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score4" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+
+
+                    <p id="comment4">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid5"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score5" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+
+
+                    <p id="comment5">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid6"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score6" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+
+
+                    <p id="comment6">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid7"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score7" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+
+
+                    <p id="comment7">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid8"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score8" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+
+
+                    <p id="comment8">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid9"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score9" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+
+
+                    <p id="comment9">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" >
+                        用户id：	<span id="uid10"> 17328963</span> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;	用户评分：<span id="score10" style="color: crimson;">3.4 </span>
+                    </h4>
+                    <br>
+
+
+                    <p id="comment10">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <ul class="pager">
+                    <li class="previous disabled"><button  class="btn btn-info" id="pre">&larr; 上一页</li>
+                    <li class="next"><button  class="btn btn-success" id="next">下一页 &rarr;</li>
+                </ul>
+            </div>
+        </div>
+        <script>console.log(curpage);
+        console.log(clist[curpage].uid);
+        $("#uid1").val(clist[curpage].uid);
+
+        for(var i=1;i<=10;i++){
+            console.log(clist[i].uid);
+            $("#uid"+i).html(clist[i].uid);
+            $("#score"+i).html(clist[i].score);
+            $("#comment"+i).html(clist[i].comContents);
+        }
+        </script>
+    </div>
+    <div class="col-md-4 column">
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+</body>
+</html>
